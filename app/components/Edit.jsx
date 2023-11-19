@@ -13,7 +13,17 @@ export default function Edit() {
         onClick={() => setOpen(!open)}
       />
       <RightSideDrawer title={"Edit Blog"} open={open} setOpen={setOpen}>
-        Edit Here
+        <form>
+          <textarea
+            id="edit"
+            name="edit"
+            rows="5"
+            className="w-full border border-lime-500 rounded-md"
+          />
+          <button className="bg-lime-500 text-white p-2 rounded-md ml-auto">
+            Edit Now
+          </button>
+        </form>
       </RightSideDrawer>
     </div>
   );
