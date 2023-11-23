@@ -1,6 +1,6 @@
 import client from "./HTTPchain";
 
-const APIREQUEST = {
+const ApiRequests = {
   blog: {
     getBlogs: () => {
       const endpoint = "/blogs";
@@ -21,4 +21,4 @@ const APIREQUEST = {
   },
 };
 
-export default APIREQUEST;
+export default ApiRequests;
