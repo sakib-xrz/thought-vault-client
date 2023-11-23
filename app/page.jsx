@@ -1,7 +1,26 @@
+import { dehydrate, Hydrate } from "@tanstack/react-query";
+
+import ApiRequests from "@/utilities/requests/APIRequest";
+import getQueryClient from "@/getQueryClient";
+
+import Banner from "./components/Banner";
+import Blogs from "./components/Blogs";
+
 export default async function Home() {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(["blogs"], async () => {
+    const { data } = await ApiRequests.blog.getBlogs();
+    return data;
+  });
+  const dehydratedState = dehydrate(queryClient);
+
   return (
     <>
-      <h1 className="text-3xl font-bold text-center">Hello World!</h1>
+      <Banner />
+
+      <Hydrate state={dehydratedState}>
+        <Blogs />
+      </Hydrate>
     </>
   );
 }

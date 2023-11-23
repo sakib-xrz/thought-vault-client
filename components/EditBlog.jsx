@@ -1,23 +1,21 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import RightSideDrawer from "./RightSideDrawer";
-import { QueryClient } from "@tanstack/react-query";
 
-export default function EditBlog({ blog, open, setOpen }) {
-  const queryClient = new QueryClient();
+import ApiRequests from "@/utilities/requests/APIRequest";
+
+export default function EditBlog({ blog, refetch }) {
+  const queryClient = useQueryClient();
+
   const [title, setTitle] = useState(blog.title);
   const [details, setDetails] = useState(blog.details);
 
-  const handleBlogUpdate = async (event) => {
+  const handleBlogUpdate = (event) => {
     event.preventDefault();
 
-    APIREQUEST.blog
-      .editBlog(blog._id, { title, details })
-      .then(async () => {
-        await queryClient.refetchQueries({
-          queryKey: ["blogs", 1],
-          type: "active",
-          exact: true,
-        });
+    ApiRequests.blog
+      .editBlog(blog._id, { title, blog })
+      .then(({ data }) => {
+        queryClient.refetchQueries(["blogs"]);
       })
       .catch((error) => console.log(error));
   };
@@ -49,7 +47,7 @@ export default function EditBlog({ blog, open, setOpen }) {
           type="submit"
           className="bg-lime-500 text-white py-2 px-4 rounded-md"
         >
-          Edit Now
+          Save
         </button>
       </div>
     </form>
